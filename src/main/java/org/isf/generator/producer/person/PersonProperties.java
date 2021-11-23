@@ -263,12 +263,12 @@ public final class PersonProperties {
 		};
 	}
 
-	public static PersonProperty withOccupation(final String occupation) {
+	public static PersonProperty withProfession(final String profession) {
 		return new PersonProperty() {
 
 			@Override
 			public void apply(PersonProvider personProvider, BaseProducer baseProducer) {
-				personProvider.setOccupation(occupation);
+				personProvider.setProfession(profession);
 			}
 		};
 	}

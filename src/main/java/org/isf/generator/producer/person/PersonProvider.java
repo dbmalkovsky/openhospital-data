@@ -40,7 +40,7 @@ public interface PersonProvider extends Provider<Person> {
 	String PERSONAL_EMAIL = "personalEmails";
 	@VisibleForTesting
 	String TELEPHONE_NUMBER_FORMATS = "telephone_number_formats";
-	String OCCUPATION = "occupation";
+	String PROFESSION = "profession";
 	String MARITAL_STATUS = "maritalStatus";
 	String BLOOD_TYPE = "bloodType";
 
@@ -81,7 +81,7 @@ public interface PersonProvider extends Provider<Person> {
 
 	void generatePassportNumber();
 
-	void generateOccupation();
+	void generateProfession();
 
 	void generateMaritalStatus();
 
@@ -133,7 +133,7 @@ public interface PersonProvider extends Provider<Person> {
 
 	void setPassportNumber(String passportNumber);
 
-	void setOccupation(String occupation);
+	void setProfession(String profession);
 
 	void setMaritalStatus(String maritalStatus);
 

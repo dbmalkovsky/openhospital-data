@@ -63,7 +63,7 @@ public class DefaultPersonProvider implements PersonProvider {
 	protected String nationalIdentificationNumber;
 	protected String passportNumber;
 	protected Country nationality;
-	protected String occupation;
+	protected String profession;
 	protected String martialStatus;
 	protected String bloodType;
 	protected String nameOfMother;
@@ -123,7 +123,7 @@ public class DefaultPersonProvider implements PersonProvider {
 		generateAddress();
 		generateNationality();
 		generateMobileTelephoneNumber();
-		generateOccupation();
+		generateProfession();
 		generateMaritalStatus();
 		generateBloodType();
 		generateNameOfMother();
@@ -132,7 +132,7 @@ public class DefaultPersonProvider implements PersonProvider {
 		generateHasInsurance();
 
 		return new Person(firstName, middleName, lastName, address, email, username, password, sex, telephoneNumber, mobileTelephoneNumber, dateOfBirth, age,
-				nationalIdentityCardNumber, nationalIdentificationNumber, passportNumber, company, companyEmail, nationality, occupation, martialStatus,
+				nationalIdentityCardNumber, nationalIdentificationNumber, passportNumber, company, companyEmail, nationality, profession, martialStatus,
 				bloodType, nameOfMother, nameOfFather, parentsTogether, hasInsurance);
 	}
 
@@ -293,15 +293,15 @@ public class DefaultPersonProvider implements PersonProvider {
 	}
 
 	@Override
-	public void generateOccupation() {
-		if (occupation != null) {
+	public void generateProfession() {
+		if (profession != null) {
 			return;
 		}
 		if (age <= 19) {
-			occupation = "unknown";
+			profession = "unknown";
 			return;
 		}
-		occupation = dataMaster.getValuesOfType(OCCUPATION, sex.name(), String.class);
+		profession = dataMaster.getValuesOfType(PROFESSION, sex.name(), String.class);
 	}
 
 	@Override
@@ -454,8 +454,8 @@ public class DefaultPersonProvider implements PersonProvider {
 	}
 
 	@Override
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
+	public void setProfession(String profession) {
+		this.profession = profession;
 	}
 
 	@Override

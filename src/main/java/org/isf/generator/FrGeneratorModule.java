@@ -23,8 +23,20 @@ package org.isf.generator;
 
 import org.isf.generator.data.DataMaster;
 import org.isf.generator.producer.RandomGenerator;
+import org.isf.generator.producer.VATIdentificationNumberProvider;
+import org.isf.generator.producer.company.locale.en.EnVATIdentificationNumberProvider;
+import org.isf.generator.producer.company.locale.fr.FrVATIdentificationNumberProvider;
+import org.isf.generator.producer.person.AddressProvider;
 import org.isf.generator.producer.person.NationalIdentificationNumberFactory;
+import org.isf.generator.producer.person.NationalIdentityCardNumberProvider;
+import org.isf.generator.producer.person.PassportNumberProvider;
 import org.isf.generator.producer.person.locale.NoNationalIdentificationNumberFactory;
+import org.isf.generator.producer.person.locale.en.EnAddressProvider;
+import org.isf.generator.producer.person.locale.en.EnNationalIdentityCardNumberProvider;
+import org.isf.generator.producer.person.locale.en.EnPassportNumberProvider;
+import org.isf.generator.producer.person.locale.en.FrPassportNumberProvider;
+import org.isf.generator.producer.person.locale.fr.FrAddressProvider;
+import org.isf.generator.producer.person.locale.fr.FrNationalIdentityCardNumberProvider;
 
 public class FrGeneratorModule extends GeneratorModule {
 
@@ -36,6 +48,10 @@ public class FrGeneratorModule extends GeneratorModule {
 	protected void configure() {
 		super.configure();
 		bind(NationalIdentificationNumberFactory.class).to(NoNationalIdentificationNumberFactory.class);
+		bind(NationalIdentityCardNumberProvider.class).to(FrNationalIdentityCardNumberProvider.class);
+		bind(VATIdentificationNumberProvider.class).to(FrVATIdentificationNumberProvider.class);
+		bind(AddressProvider.class).to(FrAddressProvider.class);
+		bind(PassportNumberProvider.class).to(FrPassportNumberProvider.class);
 	}
 
 }
