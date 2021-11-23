@@ -15,13 +15,13 @@ public class TestGeneratorFR {
 	@Test
 	public void createFrenchName() {
 		Person person = generator.person();
-		assertThat(person.getFullName()).isEqualTo("Axel Gicquel");
+		assertThat(person.getFullName()).isEqualTo("Denis Lesage");
 	}
 
 	@Test
 	public void createFrenchCity() {
 		Person person = generator.person();
-		assertThat(person.getAddress().getCity()).isEqualTo("Chambéry");
+		assertThat(person.getAddress().getCity()).isEqualTo("Mantes-la-Jolie");
 	}
 
 }
