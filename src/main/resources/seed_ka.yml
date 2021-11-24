@@ -25,4 +25,13 @@ street: [გორკის ქუჩა, ჩეხოვის ქუჩა, �
 
 country: ['Georgia'] #'USA', 'Russia', 'Greece', 'Turkey'
 
+profession: {
+  male: [ Unknown ],
+  female: [ Unknown ]
+}
+
+maritalStatus: [ Unknown ]
+
+bloodTYpe: [ Unknown ]
+
 language: 'KA'

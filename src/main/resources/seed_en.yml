@@ -25,4 +25,13 @@ street: [ Atkins Avenue, Aster Court, Cove Lane, Ford Street, Highland Place, He
 
 country: [ 'Canada', 'USA', 'Poland' ]
 
+profession: {
+  male: [ Business, Construction, Engineering, Farming, Janitorial Services, Mechanic, Medicine, Mining, Other, Unknown ],
+  female: [ Food/Hospitality, Homemaker, Medicine, Other, Unknown ]
+}
+
+maritalStatus: [Divorced, Married, Single, Unknown, Widowed]
+
+bloodTYpe: [O+, A+, B+, AB+, O-, A-, B-, AB-, Unknown]
+
 language: 'EN'

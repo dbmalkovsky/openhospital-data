@@ -25,4 +25,13 @@ street: [Via Roma, P.zza Italia, L.go Augusto, Via G. Matteotti, Piazza G. Cesar
 
 country: ['Italia', 'Francia', 'Germania', 'Spagna']
 
+profession: {
+  male: [ Unknown ],
+  female: [ Unknown ]
+}
+
+maritalStatus: [ Unknown ]
+
+bloodTYpe: [ Unknown ]
+
 language: 'IT'

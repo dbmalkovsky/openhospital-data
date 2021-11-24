@@ -26,4 +26,13 @@ street: [17 Stycznia, Adampolska, Aleja Księcia Józefa Poniatowskiego, Aleja W
 
 country: ['Polska']
 
+profession: {
+  male: [ Unknown ],
+  female: [ Unknown ]
+}
+
+maritalStatus: [ Unknown ]
+
+bloodTYpe: [ Unknown ]
+
 language: 'PL'

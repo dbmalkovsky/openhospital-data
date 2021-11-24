@@ -25,4 +25,13 @@ street: [Adlerbethsgatan, Adolf Fredriks Kyrkogata, Af Pontins Väg, Ahlsellväg
 
 country: ['Sverige']
 
+profession: {
+  male: [ Unknown ],
+  female: [ Unknown ]
+}
+
+maritalStatus: [ Unknown ]
+
+bloodTYpe: [ Unknown ]
+
 language: 'SV'

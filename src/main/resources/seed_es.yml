@@ -26,4 +26,13 @@ street: [Mayor, Iglesia, Real, Nueva, San Jose, San Roque, San Juan, San Pedro, 
 
 country: ['España'] #, 'Argentina', 'Uruguay', 'Mexico', 'Chile', 'Colombia', 'Venezuela', 'Cuba', 'Ecuador', 'Honduras', 'Perú']
 
+profession: {
+  male: [ Unknown ],
+  female: [ Unknown ]
+}
+
+maritalStatus: [ Unknown ]
+
+bloodTYpe: [ Unknown ]
+
 language: 'ES'

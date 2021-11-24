@@ -25,4 +25,13 @@ street: [中山大道, 环市东路, 内环路, 外环西路, 中山四路, 滨�
 
 country: [中国, 美国, 法国, 英国, 德国, 西班牙, 意大利, 加拿大, 俄罗斯, 日本, 韩国, 巴西]
 
+profession: {
+  male: [ Unknown ],
+  female: [ Unknown ]
+}
+
+maritalStatus: [ Unknown ]
+
+bloodTYpe: [ Unknown ]
+
 language: 'ZH'
