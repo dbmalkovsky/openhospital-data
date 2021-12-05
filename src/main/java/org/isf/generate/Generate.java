@@ -21,13 +21,21 @@
  */
 package org.isf.generate;
 
+import static org.isf.generator.producer.hospitalvisit.HospitalVisitProperties.HospitalVisitProperty.withDischargePercentage;
+import static org.isf.generator.producer.hospitalvisit.HospitalVisitProperties.HospitalVisitProperty.withPatient;
+import static org.isf.generator.producer.hospitalvisit.HospitalVisitProperties.HospitalVisitProperty.withPerson;
 import static org.isf.generator.producer.person.PersonProperties.ageBetween;
 import static org.isf.generator.producer.person.PersonProperties.female;
 import static org.isf.generator.producer.person.PersonProperties.male;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import org.isf.admission.manager.AdmissionBrowserManager;
+import org.isf.admission.model.Admission;
 import org.isf.generator.Generator;
+import org.isf.generator.producer.BaseProducer;
+import org.isf.generator.producer.hospitalvisit.HospitalVisit;
 import org.isf.generator.producer.person.Person;
 import org.isf.generator.producer.person.PersonProperties;
 import org.isf.menu.manager.Context;
@@ -46,9 +54,17 @@ public class Generate {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 	public static final String ADMIN_STR = "admin";
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	private PatientBrowserManager patientManager;
+	private AdmissionBrowserManager admissionManager;
+
 	private Generator generator;
+	private BaseProducer baseProducer;
+
+	private static int yProg;
+
+	private static User theUser;
 
 	public static void main(String[] args) {
 		ApplicationContext context = null;
@@ -61,9 +77,9 @@ public class Generate {
 		Context.setApplicationContext(context);
 
 		LOGGER.info("Logging: Single User mode.");
-		User myUser = new User(ADMIN_STR, new UserGroup(ADMIN_STR, ""), ADMIN_STR, "");
-		MDC.put("OHUser", myUser.getUserName());
-		MDC.put("OHUserGroup", myUser.getUserGroupName().getCode());
+		theUser = new User(ADMIN_STR, new UserGroup(ADMIN_STR, ""), ADMIN_STR, "");
+		MDC.put("OHUser", theUser.getUserName());
+		MDC.put("OHUserGroup", theUser.getUserGroupName().getCode());
 
 		try {
 			new Generate().doGenerator();
@@ -74,38 +90,50 @@ public class Generate {
 
 	private void doGenerator() throws OHServiceException {
 		patientManager = Context.getApplicationContext().getBean(PatientBrowserManager.class);
+		admissionManager = Context.getApplicationContext().getBean(AdmissionBrowserManager.class);
+
 		generator = Generator.create(Locale.forLanguageTag("SW"));
-		generatePatient(1, male(), 0, 0);
-		generatePatient(1, female(), 0, 0);
 
-		generatePatient(1, male(), 1, 5);
-		generatePatient(1, female(), 1, 5);
+		baseProducer = generator.baseProducer();
 
-		generatePatient(1, male(), 6, 12);
-		generatePatient(1, female(), 6, 12);
+		generatePatient(1, male(), 0, 0, 50, 25);
+		generatePatient(1, female(), 0, 0, 50, 25);
 
-		generatePatient(1, male(), 13, 24);
-		generatePatient(1, female(), 13, 24);
+		generatePatient(1, male(), 1, 5, 50, 25);
+		generatePatient(1, female(), 1, 5, 50, 25);
 
-		generatePatient(1, male(), 25, 59);
-		generatePatient(1, female(), 25, 59);
+		generatePatient(1, male(), 6, 12, 50, 25);
+		generatePatient(1, female(), 6, 12, 50, 25);
 
-		generatePatient(1, male(), 60, 99);
-		generatePatient(1, female(), 60, 99);
+		generatePatient(1, male(), 13, 24, 50, 25);
+		generatePatient(1, female(), 13, 24, 50, 25);
+
+		generatePatient(3, male(), 25, 59, 50, 25);
+		generatePatient(4, female(), 25, 59, 50, 25);
+
+		generatePatient(2, male(), 60, 99, 50, 25);
+		generatePatient(3, female(), 60, 99, 50, 25);
 	}
 
-	private void generatePatient(int numberOfPatients, PersonProperties.PersonProperty sex, int minAge, int maxAge) throws OHServiceException {
+	private void generatePatient(int numberOfPatients, PersonProperties.PersonProperty sex, int minAge, int maxAge, int percentAdmissions, int percentDischarge)
+			throws OHServiceException {
 
-		Person person;
+		Person person = null;
 		Patient patient;
+		Admission admission;
+		int admittedCount = 0;
+		int dischargedCount = 0;
 
+		LOGGER.error("");
+		LOGGER.error(">>>>> Number of Patients={}, minAge={}, maxAge={}, admission={}%, discharge={}%", numberOfPatients, minAge, maxAge, percentAdmissions,
+				percentDischarge);
 		for (int counter = 0; counter < numberOfPatients; counter++) {
 			person = generator.person(sex, ageBetween(minAge, maxAge));
 			patient = new Patient();
 			patient.setFirstName(person.getFirstName());
 			patient.setSecondName(person.getLastName());
 			patient.setAge(person.getAge());
-			patient.setSex(person.getSex() == Person.Sex.MALE ? 'M' : 'F');
+			patient.setSex(person.isMale() ? 'M' : 'F');
 			patient.setAddress(person.getAddress().getStreetNumber() + ' ' + person.getAddress().getStreet());
 			patient.setCity(person.getAddress().getCity());
 			patient.setNextKin("");
@@ -123,8 +151,47 @@ public class Generate {
 			patient.setMaritalStatus(person.getMartialStatus());
 			patient.setProfession(person.getProfession());
 
-			patientManager.savePatient(patient);
+			Patient savedPatient = patientManager.savePatient(patient);
+			LOGGER.error("Patient saved: {} {}", savedPatient.getFirstName(), savedPatient.getSecondName());
+
+			// only admit a percentage of patients
+			if (baseProducer.randomBetween(1, 100) > percentAdmissions) {
+				continue;
+			}
+
+			admittedCount++;
+			HospitalVisit hospitalVisit = generator.hospitalVisit(withPatient(patient), withPerson(person), withDischargePercentage(percentDischarge));
+
+			admission = new Admission();
+			admission.setPatient(patient);
+			admission.setAdmDate(hospitalVisit.getAdmissionDate());
+			admission.setAdmType(hospitalVisit.getAdmissionType());
+			admission.setWard(hospitalVisit.getWard());
+			admission.setDeleted(String.valueOf(hospitalVisit.getDeleted()));    // flag record deleted ; values are 'Y' OR 'N' default is 'N'
+			admission.setType(String.valueOf(hospitalVisit.getType()));          // values are 'N'(normal)  or 'M' (malnutrition)  default 'N'
+			admission.setDiseaseIn(hospitalVisit.getDisease());
+			admission.setAdmitted(1);         // values are 0 or 1, default 0 (not admitted)
+			admission.setYProg(yProg++);
+
+			if (hospitalVisit.getDischargeDate() != null) {
+				admission.setDisDate(hospitalVisit.getDischargeDate());
+				admission.setDiseaseOut1(hospitalVisit.getDiagnosis());
+				admission.setDisType(hospitalVisit.getDischargeType());
+				dischargedCount++;
+			}
+
+			admission.setUserID(theUser.getUserName());
+
+			int code = admissionManager.newAdmissionReturnKey(admission);
+			Admission retrievedAdmission = admissionManager.getAdmission(code);
+			LOGGER.error("Admission saved: {} {}", retrievedAdmission.getPatient().getFirstName(), retrievedAdmission.getPatient().getSecondName());
+			if (retrievedAdmission.getDisDate() != null) {
+				LOGGER.error("                 admitted={} and discharged={}", retrievedAdmission.getAdmDate().format(formatter),
+						retrievedAdmission.getDisDate().format(formatter));
+			}
 		}
+		LOGGER.error("Summary: {} {} patients created; admitted={}, discharged={}\n", numberOfPatients, person.isMale() ? "male" : "female", admittedCount,
+				dischargedCount);
 	}
 
 }

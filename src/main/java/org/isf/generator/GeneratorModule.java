@@ -26,6 +26,9 @@ import org.isf.generator.producer.RandomGenerator;
 import org.isf.generator.producer.company.CompanyFactory;
 import org.isf.generator.producer.company.CompanyProvider;
 import org.isf.generator.producer.company.DefaultCompanyProvider;
+import org.isf.generator.producer.hospitalvisit.DefaultHospitalVisitProvider;
+import org.isf.generator.producer.hospitalvisit.HospitalVisitFactory;
+import org.isf.generator.producer.hospitalvisit.HospitalVisitProvider;
 import org.isf.generator.producer.payment.DefaultIBANProvider;
 import org.isf.generator.producer.payment.IBANFactory;
 import org.isf.generator.producer.payment.IBANProvider;
@@ -55,6 +58,7 @@ public abstract class GeneratorModule extends AbstractModule {
 		install(new FactoryModuleBuilder().implement(PersonProvider.class, DefaultPersonProvider.class).build(PersonFactory.class));
 		install(new FactoryModuleBuilder().implement(CompanyProvider.class, DefaultCompanyProvider.class).build(CompanyFactory.class));
 		install(new FactoryModuleBuilder().implement(IBANProvider.class, DefaultIBANProvider.class).build(IBANFactory.class));
+		install(new FactoryModuleBuilder().implement(HospitalVisitProvider.class, DefaultHospitalVisitProvider.class).build(HospitalVisitFactory.class));
 	}
 
 }

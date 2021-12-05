@@ -31,6 +31,9 @@ import org.isf.generator.producer.DateProducer;
 import org.isf.generator.producer.company.Company;
 import org.isf.generator.producer.company.CompanyFactory;
 import org.isf.generator.producer.company.CompanyProperties;
+import org.isf.generator.producer.hospitalvisit.HospitalVisit;
+import org.isf.generator.producer.hospitalvisit.HospitalVisitFactory;
+import org.isf.generator.producer.hospitalvisit.HospitalVisitProperties;
 import org.isf.generator.producer.net.NetworkProducer;
 import org.isf.generator.producer.payment.CreditCard;
 import org.isf.generator.producer.payment.CreditCardProvider;
@@ -54,10 +57,11 @@ public final class Generator {
 	private final CreditCardProvider creditCardProvider;
 	private final CompanyFactory companyFactory;
 	private final IBANFactory ibanFactory;
+	private final HospitalVisitFactory hospitalVisitFactory;
 
 	@Inject
 	Generator(TextProducer textProducer, PersonFactory personFactory, NetworkProducer networkProducer, BaseProducer baseProducer, DateProducer dateProducer,
-			CreditCardProvider creditCardProvider, CompanyFactory companyFactory, IBANFactory ibanFactory) {
+			CreditCardProvider creditCardProvider, CompanyFactory companyFactory, IBANFactory ibanFactory, HospitalVisitFactory hospitalVisitFactory) {
 		this.textProducer = textProducer;
 		this.personFactory = personFactory;
 		this.networkProducer = networkProducer;
@@ -66,6 +70,7 @@ public final class Generator {
 		this.creditCardProvider = creditCardProvider;
 		this.companyFactory = companyFactory;
 		this.ibanFactory = ibanFactory;
+		this.hospitalVisitFactory = hospitalVisitFactory;
 	}
 
 	public static Generator create() {
@@ -107,10 +112,20 @@ public final class Generator {
 	 * Use this method to generate fake company
 	 *
 	 * @param companyProperties desired company features
-	 * @return A {@link org.isf.generator.producer.company.CompanyProvider} instance
+	 * @return A fake {@link org.isf.generator.producer.company.Company} instance
 	 */
 	public Company company(CompanyProperties.CompanyProperty... companyProperties) {
 		return companyFactory.produceCompany(companyProperties).get();
+	}
+
+	/**
+	 * Use this method to generate fake HospitalVisit/Admission
+	 *
+	 * @param hosptialVisitProperties desired hospitalVisit/admission features
+	 * @return A fake {@link HospitalVisit} instance
+	 */
+	public HospitalVisit hospitalVisit(HospitalVisitProperties.HospitalVisitProperty... hosptialVisitProperties) {
+		return hospitalVisitFactory.produceHospitalVisit(hosptialVisitProperties).get();
 	}
 
 	/**
