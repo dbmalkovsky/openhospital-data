@@ -2,7 +2,7 @@ package org.isf.generator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,7 +70,7 @@ public class TestGenerator {
 
 		@Override
 		public List<String> getStringList(String key) {
-			return Arrays.asList(CUSTOM_STRING);
+			return Collections.singletonList(CUSTOM_STRING);
 		}
 
 		@Override
