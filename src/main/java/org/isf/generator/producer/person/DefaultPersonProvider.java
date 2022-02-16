@@ -348,7 +348,7 @@ public class DefaultPersonProvider implements PersonProvider {
 
 	@Override
 	public void generateFatherAlive() {
-		fatherAlive = (char)dataMaster.getRandomValue(PARENTS_ALIVE).charAt(0);
+		fatherAlive = (char) dataMaster.getRandomValue(PARENTS_ALIVE).charAt(0);
 	}
 
 	@Override
