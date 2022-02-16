@@ -67,7 +67,9 @@ public class DefaultPersonProvider implements PersonProvider {
 	protected String martialStatus;
 	protected String bloodType;
 	protected String nameOfMother;
+	protected char motherAlive;
 	protected String nameOfFather;
+	protected char fatherAlive;
 	protected char parentsTogether;
 	protected char hasInsurance;
 
@@ -128,12 +130,14 @@ public class DefaultPersonProvider implements PersonProvider {
 		generateBloodType();
 		generateNameOfMother();
 		generateNameOfFather();
+		generateMotherAlive();
+		generateFatherAlive();
 		generateParentsTogether();
 		generateHasInsurance();
 
 		return new Person(firstName, middleName, lastName, address, email, username, password, sex, telephoneNumber, mobileTelephoneNumber, dateOfBirth, age,
 				nationalIdentityCardNumber, nationalIdentificationNumber, passportNumber, company, companyEmail, nationality, profession, martialStatus,
-				bloodType, nameOfMother, nameOfFather, parentsTogether, hasInsurance);
+				bloodType, nameOfMother, motherAlive, nameOfFather, fatherAlive, parentsTogether, hasInsurance);
 	}
 
 	@Override
@@ -330,6 +334,11 @@ public class DefaultPersonProvider implements PersonProvider {
 	}
 
 	@Override
+	public void generateMotherAlive() {
+		motherAlive = dataMaster.getRandomValue(PARENTS_ALIVE).charAt(0);
+	}
+
+	@Override
 	public void generateNameOfFather() {
 		if (nameOfFather != null) {
 			return;
@@ -338,11 +347,22 @@ public class DefaultPersonProvider implements PersonProvider {
 	}
 
 	@Override
+	public void generateFatherAlive() {
+		fatherAlive = (char)dataMaster.getRandomValue(PARENTS_ALIVE).charAt(0);
+	}
+
+	@Override
 	public void generateParentsTogether() {
 		if (parentsTogether != 0) {
 			return;
 		}
-		parentsTogether = baseProducer.trueOrFalse() ? 'Y' : 'N';
+		if (motherAlive == 'U' || fatherAlive == 'U') {
+			parentsTogether = 'U';
+		} else if (motherAlive == 'D' || fatherAlive == 'D') {
+			parentsTogether = 'N';
+		} else {
+			parentsTogether = baseProducer.trueOrFalse() ? 'Y' : 'N';
+		}
 	}
 
 	@Override

@@ -56,14 +56,16 @@ public class Person {
 	private final String martialStatus;
 	private final String bloodType;
 	private final String nameOfMother;
+	private final char motherAlive;
 	private final String nameOfFather;
+	private final char fatherAlive;
 	private final char parentsTogether;
 	private final char hasInsurance;
 
 	public Person(String firstName, String middleName, String lastName, Address address, String email, String username, String password, Sex sex,
 			String telephoneNumber, String mobileTelephoneNumber, LocalDate dateOfBirth, Integer age, String nationalIdentityCardNumber,
 			String nationalIdentificationNumber, String passportNumber, Company company, String companyEmail, Country nationality, String profession,
-			String martialStatus, String bloodType, String nameOfMother, String nameOfFather, char parentsTogether, char hasInsurance) {
+			String martialStatus, String bloodType, String nameOfMother, char motherAlive, String nameOfFather, char fatherAlive, char parentsTogether, char hasInsurance) {
 		this.nationalIdentityCardNumber = nationalIdentityCardNumber;
 		this.address = address;
 		this.firstName = firstName;
@@ -86,7 +88,9 @@ public class Person {
 		this.martialStatus = martialStatus;
 		this.bloodType = bloodType;
 		this.nameOfMother = nameOfMother;
+		this.motherAlive = motherAlive;
 		this.nameOfFather = nameOfFather;
+		this.fatherAlive = fatherAlive;
 		this.parentsTogether = parentsTogether;
 		this.hasInsurance = hasInsurance;
 	}
@@ -191,9 +195,15 @@ public class Person {
 		return nameOfMother;
 	}
 
+	public char getMotherAlive() {
+		return motherAlive;
+	}
+
 	public String getNameOfFather() {
 		return nameOfFather;
 	}
+
+	public char getFatherAlive() { return fatherAlive; }
 
 	public char getParentsTogether() {
 		return parentsTogether;

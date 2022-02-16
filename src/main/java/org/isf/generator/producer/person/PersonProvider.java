@@ -43,6 +43,7 @@ public interface PersonProvider extends Provider<Person> {
 	String PROFESSION = "profession";
 	String MARITAL_STATUS = "maritalStatus";
 	String BLOOD_TYPE = "bloodType";
+	String PARENTS_ALIVE = "parentsAlive";
 
 	@Override
 	Person get();
@@ -89,7 +90,11 @@ public interface PersonProvider extends Provider<Person> {
 
 	void generateNameOfMother();
 
+	void generateMotherAlive();
+
 	void generateNameOfFather();
+
+	void generateFatherAlive();
 
 	void generateParentsTogether();
 
